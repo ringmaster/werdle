@@ -50,6 +50,7 @@
         class:misplaced="{/\w/.test(v) && color == 'misplaced'}" 
         bind:value={v} 
         maxlength="1" 
+        autocapitalize="off"
         on:keyup="{keypress}" 
         on:focus="{onselect}" 
         on:click="{onselect}" 

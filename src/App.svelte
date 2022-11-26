@@ -1,6 +1,6 @@
 <script>
   import wordlist from './lib/wordlist'
-  import Chars from './lib/Chars.svelte';
+  import Chars from './lib/Chars.svelte'
 
   let solved = "....."
 
@@ -20,13 +20,15 @@
     words = words.filter((word) => re.test(word))
     guesses.forEach((miss) => {
       if(miss != '.....') {
-        let re = new RegExp("^" + miss.replaceAll(/(\w)/g, "[^$1]") + "$", 'i')
+        let rex = new RegExp("^" + miss.replaceAll(/(\w)/g, "[^$1]") + "$", 'i')
+        console.log(rex)
         words = words.filter((word) => {
-          return re.test(word)
+          return rex.test(word)
         })
       }
       goodletters += miss.replaceAll('.', '')
     })
+    console.log('goodletters: ' + goodletters)
     re = new RegExp("[" + badletters + "]")
     console.log(re)
     words = words.filter((word) => !re.test(word))
