@@ -69,6 +69,7 @@
 <div class="col-3"></div>
 <div class="col-5">
 <button on:click={()=>guesses = [...guesses, '.....']}>Add Miss</button>
+<button on:click={dofilter}>Compute</button>
 </div>
 <div class="col-3"></div>
 </div>
