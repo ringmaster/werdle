@@ -7,7 +7,7 @@
   let guesses = ['.....']
 
   let possibles = [];
-  let sortable = [];
+  let alphafreq = [];
 
   let badletters = "";
 
@@ -34,19 +34,33 @@
     words = words.filter((word) => !re.test(word))
     let goods = goodletters.split('')
     goods.forEach((good) => words = words.filter((word) => word.indexOf(good) != -1))
-    possibles = words
+
+    possibles = []
+    words.forEach((word) => possibles = [...possibles, {word: word, hits: 0}])
 
     pct = Array.from(new Array(26)).reduce((p, c, i) => (p[String.fromCharCode(i + 97)] = 0, p), {})
     possibles.forEach((word) => {
-      let letters = [...new Set(word.split(''))]
+      let letters = [...new Set(word.word.split(''))]
       letters.forEach((letter) => pct[letter] = pct[letter] +1)
     })
 
-    sortable = [];
+    alphafreq = [];
+    console.log(pct)
     for (var p in pct) {
-        sortable.push([p, pct[p]]);
+      alphafreq.push({letter: p, freq: pct[p]});
     }
-    sortable.sort((a, b) => b[1] - a[1])
+    alphafreq.sort((a, b) => b.freq - a.freq)
+    let totalwords = alphafreq[0].freq
+    //alphafreq = alphafreq.map((cur)=> {return {letter: cur.letter, freq: Math.floor(cur.freq/totalwords * 100) }})
+    let newalpha = {}
+    alphafreq.forEach((e)=> newalpha[e.letter] = e.freq)
+
+    possibles = possibles.map((cur) => {
+      let hits = 0
+      cur.word.split('').forEach((l) => hits += newalpha[l] == totalwords ? 0 : newalpha[l])
+      return {word: cur.word, hits: hits}
+    })
+    possibles.sort((a,b) => b.hits-a.hits)
   }
 </script>
 
@@ -82,14 +96,14 @@
     <div class="col">
   <ul>
     {#each possibles as possible}
-      <li>{possible}</li>
+      <li>{possible.word} - {possible.hits}</li>
     {/each}
   </ul>
   </div>
   <div class="col">
     <ul>
-      {#each sortable as [l, v]}
-        <li><b>{l}:</b> {v}</li>
+      {#each alphafreq as alpha}
+        <li><b>{alpha.letter}:</b> {alpha.freq}</li>
       {/each}
     </ul>
     </div>
