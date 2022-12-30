@@ -14,16 +14,23 @@
   let pct = Array.from(new Array(26)).reduce((p, c, i) => (p[String.fromCharCode(i + 97)] = 0, p), {})
 
   function resetClues() {
+    console.log("Resetting...")
     guesses = ['.....'];
+    badletters = '';
+    solved = '.....';
   }
 
   function dofilter() {
     let goodletters = "";
     let words = wordlist.split(/\W+/);
+    let bad = badletters.split('').filter((value, index, self) => self.indexOf(value) == index)
     let re = new RegExp("^" + solved + "$", "i")
+
+    bad = bad.filter((value) => solved.replaceAll(/(\W)/g, '').indexOf(value) == -1 ) 
     words = words.filter((word) => re.test(word))
     guesses.forEach((miss) => {
       if(miss != '.....') {
+        bad = bad.filter((value) => miss.replaceAll(/(\W)/g, '').indexOf(value) == -1 ) 
         let rex = new RegExp("^" + miss.replaceAll(/(\w)/g, "[^$1]") + "$", 'i')
         console.log(rex)
         words = words.filter((word) => {
@@ -33,7 +40,8 @@
       goodletters += miss.replaceAll('.', '')
     })
     console.log('goodletters: ' + goodletters)
-    re = new RegExp("[" + badletters + "]", 'i')
+
+    re = new RegExp("[" + bad.join('') + "]", 'i')
     console.log(re)
     words = words.filter((word) => !re.test(word))
     let goods = goodletters.split('')

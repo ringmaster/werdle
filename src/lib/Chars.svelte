@@ -1,6 +1,7 @@
 <script>
     import {focusNextElement} from './utils'
     import { createEventDispatcher } from 'svelte';
+    import { beforeUpdate } from 'svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -8,6 +9,8 @@
     export let color = 'white'
 
     let values = [' ',' ',' ',' ',' ']
+
+    $: values = value.replaceAll('.', ' ').split('')
 
     function dochange(e) {
         value = values.map(oe).join('')
