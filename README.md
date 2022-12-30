@@ -2,7 +2,7 @@
 
 *A Wordle solver*
 
-1. Visit (the static page)[https://ringmaster.github.io/werdle/dist/] in your browser.
+1. Visit [the static page](https://ringmaster.github.io/werdle/dist/) in your browser.
 2. Guess a good first word on Wordle.  I often use "RAISE".
 3. For every letter in the correct place, add that letter in the first row in the correct slot.
 4. For every letter not in the word, add that letter to the textbox in row 2.
