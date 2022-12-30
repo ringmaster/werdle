@@ -29,7 +29,7 @@
       goodletters += miss.replaceAll('.', '')
     })
     console.log('goodletters: ' + goodletters)
-    re = new RegExp("[" + badletters + "]")
+    re = new RegExp("[" + badletters + "]", 'i')
     console.log(re)
     words = words.filter((word) => !re.test(word))
     let goods = goodletters.split('')
@@ -57,7 +57,11 @@
 
     possibles = possibles.map((cur) => {
       let hits = 0
-      cur.word.split('').forEach((l) => hits += newalpha[l] == totalwords ? 0 : newalpha[l])
+      cur
+      .word
+      .split('')
+      .filter((value, index, self) => self.indexOf(value) == index)
+      .forEach((l) => hits += newalpha[l] == totalwords ? 0 : newalpha[l])
       return {word: cur.word, hits: hits}
     })
     possibles.sort((a,b) => b.hits-a.hits)
