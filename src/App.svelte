@@ -13,6 +13,10 @@
 
   let pct = Array.from(new Array(26)).reduce((p, c, i) => (p[String.fromCharCode(i + 97)] = 0, p), {})
 
+  function resetClues() {
+    guesses = ['.....'];
+  }
+
   function dofilter() {
     let goodletters = "";
     let words = wordlist.split(/\W+/);
@@ -90,6 +94,7 @@
 <div class="col-5">
 <button on:click={()=>guesses = [...guesses, '.....']}>Add Miss</button>
 <button on:click={dofilter}>Compute</button>
+<button on:click={resetClues}>Reset</button>
 </div>
 <div class="col-3"></div>
 </div>
